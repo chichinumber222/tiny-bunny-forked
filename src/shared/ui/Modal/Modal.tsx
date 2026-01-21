@@ -8,45 +8,38 @@ type Props = {
 	isOpen: boolean;
 	onClose?: () => void;
 	children: ReactNode;
-	noFade?: boolean;
 }
 
-export const Modal = ({ isOpen, onClose, children, noFade }: Props) => {
+export const Modal = ({ isOpen, onClose, children }: Props) => {
 	const [isOpened, setIsOpened] = useState<boolean>(false);
 
 	useEffect(() => {
-		let timer: NodeJS.Timeout;
 		if (isOpen) {
 			setIsOpened(true);
-		} else {
-			if (!noFade) {
-				timer = setTimeout(() => {
-					setIsOpened(false);
-				}, 800)
-			} else {
-				setIsOpened(false);
-			}
 		}
-		return () => {
-			clearTimeout(timer);
-		}
-	}, [isOpen, noFade])
+	}, [isOpen]);
 
 	const onClickModal = (event: MouseEvent) => {
-		if ((event.target as HTMLElement).classList.contains(s.modal)) {
+		if (event.target === event.currentTarget) {
 			onClose?.();
 		}
+	}
+
+	const onAnimationEnd = (event: React.AnimationEvent) => {
+		if (event.target !== event.currentTarget) return;
+		setIsOpened(false)
 	}
 
 	if (!isOpened) return null;
 
 	return createPortal(
 		<div
-			className={clsx(s.modal, (!isOpen && isOpened) && s.modal_unmount)}
+			className={clsx(s.modal, isOpen ? s.modal_open : s.modal_close)}
 			onClick={onClickModal}
+			onAnimationEnd={isOpen ? undefined : onAnimationEnd}
 		>
 			{children}
 		</div>
-		, document.getElementById('modal-root') as HTMLElement
+		, document.getElementById('modal-root') || document.body
 	)
 }
