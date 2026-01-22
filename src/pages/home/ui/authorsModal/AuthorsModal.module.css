@@ -93,10 +93,6 @@
 		padding: 30px;
 		text-align: center;
 	}
-	.buttons {
-		justify-content: center;
-		align-items: center;
-	}
 }
 @media screen and (max-width: 576px) {
 	.info {

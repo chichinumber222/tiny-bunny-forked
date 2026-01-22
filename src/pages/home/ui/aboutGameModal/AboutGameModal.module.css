@@ -15,21 +15,6 @@
 	border-radius: 20px;
 	z-index: 2;
 	aspect-ratio: 3 / 1;
-	animation-name: fade;
-	animation-duration: 500ms;
-	animation-timing-function: ease;
-	animation-iteration-count: 1;
-	animation-delay: 0ms;
-	animation-direction: normal;
-	animation-fill-mode: forwards;
-}
-@keyframes fade {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
 }
 @media screen and (max-width: 1500px) {
 	.authors {
@@ -59,12 +44,6 @@
 	letter-spacing: 3px;
 	text-shadow: 0 0 10px #000;
 }
-.nooffical {
-	margin-top: 25px;
-	font-size: 1.5rem;
-	color: #fff;
-	letter-spacing: 3px;
-}
 .description {
 	margin-top: 20px;
 	display: block;
@@ -73,19 +52,6 @@
 	text-shadow: 0 0 10px #000;
 	opacity: 0.7;
 	letter-spacing: 2px;
-}
-.links {
-	display: flex;
-	flex-direction: column;
-	margin-top: 45px;
-	gap: 20px;
-}
-.links li {
-	list-style-type: none;
-}
-.links * {
-	color: #fff;
-	font-size: 1.3rem;
 }
 .images {
 	position: relative;
@@ -106,10 +72,6 @@
 		margin: 0;
 		padding: 30px;
 		text-align: center;
-	}
-	.buttons {
-		justify-content: center;
-		align-items: center;
 	}
 }
 @media screen and (max-width: 576px) {
