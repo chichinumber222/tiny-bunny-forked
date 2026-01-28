@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,12 +24,16 @@ export const EndGameModal = () => {
 	const [isOpenedModal, setIsOpenedModal] = useState<boolean>(false);
 
 	const winnerData = END_GAME_STATE[gameWinner];
-	const randomImage = winnerData.images[Math.floor(Math.random() * winnerData.images.length)]
-	const randomSound = winnerData.sounds[Math.floor(Math.random() * winnerData.sounds.length)]
+	const randomImage = useMemo(() =>  winnerData.images[Math.floor(Math.random() * winnerData.images.length)], [winnerData]);
+	const randomSound = useMemo(() =>  winnerData.sounds[Math.floor(Math.random() * winnerData.sounds.length)], [winnerData]);
+
 
 	const onCloseHandler = () => {
-		dispatch(setGameWinner(GameWinners.Nobody));
 		setIsOpenedModal(false);
+	}
+
+	const onUnmountEndHandler = () => {
+		dispatch(setGameWinner(GameWinners.Nobody));
 	}
 
 	const onRefreshGameHandler = () => {
@@ -63,7 +67,7 @@ export const EndGameModal = () => {
 		<Modal
 			isOpen={isOpenedModal}
 			onClose={onCloseHandler}
-			noFade
+			onUnmountEnd={onUnmountEndHandler}
 		>
 			<div className={s.winner}>
 				<div className={s.info}>

@@ -22,10 +22,10 @@
 .button:hover::before {
 	content: '';
 	position: absolute;
+	display:block;
 	top: -30%;
-	right: 0;
-	bottom: 0;
 	left: -10%;
+	text-align: center;
 	width: 140%;
 	height: 140%;
 	background-image: url('./plashka.png');

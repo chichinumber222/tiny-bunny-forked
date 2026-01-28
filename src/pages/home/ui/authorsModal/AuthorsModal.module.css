@@ -15,22 +15,8 @@
 	border-radius: 20px;
 	z-index: 2;
 	aspect-ratio: 3 / 1;
-	animation-name: fade;
-	animation-duration: 500ms;
-	animation-timing-function: ease;
-	animation-iteration-count: 1;
-	animation-delay: 0ms;
-	animation-direction: normal;
-	animation-fill-mode: forwards;
 }
-@keyframes fade {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
-}
+
 @media screen and (max-width: 1500px) {
 	.authors {
 		width: 70vw;
@@ -106,10 +92,6 @@
 		margin: 0;
 		padding: 30px;
 		text-align: center;
-	}
-	.buttons {
-		justify-content: center;
-		align-items: center;
 	}
 }
 @media screen and (max-width: 576px) {
