@@ -23,14 +23,14 @@
 	content: '';
 	position: absolute;
 	display:block;
-	top: -30%;
-	left: -10%;
+	top: -20%;
+	left: -15%;
 	text-align: center;
 	width: 140%;
-	height: 140%;
+	height: 110%;
 	background-image: url('./plashka.png');
 	background-position: center;
-	background-size: contain;
+	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	transition: background-image 0.5s ease-in-out;
 	z-index: -1;

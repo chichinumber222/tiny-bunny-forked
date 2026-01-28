@@ -29,15 +29,16 @@ export const EndGameModal = () => {
 
 
 	const onCloseHandler = () => {
+		setTimeout(() => {
+			dispatch(setGameWinner(GameWinners.Nobody));
+		}, 500);
 		setIsOpenedModal(false);
 	}
 
-	const onUnmountEndHandler = () => {
-		dispatch(setGameWinner(GameWinners.Nobody));
-	}
-
 	const onRefreshGameHandler = () => {
-		dispatch(startGame());
+		setTimeout(() => {
+			dispatch(startGame());
+		}, 500);
 		setIsOpenedModal(false);
 	}
 
@@ -67,7 +68,6 @@ export const EndGameModal = () => {
 		<Modal
 			isOpen={isOpenedModal}
 			onClose={onCloseHandler}
-			onUnmountEnd={onUnmountEndHandler}
 		>
 			<div className={s.winner}>
 				<div className={s.info}>
