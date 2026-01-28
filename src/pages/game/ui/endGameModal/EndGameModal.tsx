@@ -29,16 +29,12 @@ export const EndGameModal = () => {
 
 
 	const onCloseHandler = () => {
-		setTimeout(() => {
-			dispatch(setGameWinner(GameWinners.Nobody));
-		}, 500);
+		dispatch(setGameWinner(GameWinners.Nobody));
 		setIsOpenedModal(false);
 	}
 
 	const onRefreshGameHandler = () => {
-		setTimeout(() => {
-			dispatch(startGame());
-		}, 500);
+		dispatch(startGame());
 		setIsOpenedModal(false);
 	}
 
@@ -66,6 +62,7 @@ export const EndGameModal = () => {
 
 	return (
 		<Modal
+			instantClose
 			isOpen={isOpenedModal}
 			onClose={onCloseHandler}
 		>
