@@ -10,6 +10,7 @@
 	z-index: 2;
 	transition: color 0.5s ease-in-out;
 	text-align: center;
+	white-space: nowrap;
 }
 @media screen and (max-width: 1024px) {
 	.button {
@@ -22,15 +23,14 @@
 .button:hover::before {
 	content: '';
 	position: absolute;
-	top: -30%;
-	right: 0;
-	bottom: 0;
-	left: -10%;
-	width: 140%;
-	height: 140%;
+	transform: translate(-45%, -55%);
+	top: 50%;
+	left: 50%;
+	min-width: 115%;
+	min-height: 115%;
 	background-image: url('./plashka.png');
 	background-position: center;
-	background-size: contain;
+	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	transition: background-image 0.5s ease-in-out;
 	z-index: -1;

@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,8 +7,8 @@ import { TSettingsSliceStore, useTranslates } from 'entities/settings';
 import endGameSound from 'shared/assets/sounds/end_game.ogg';
 import { HatchButton, Modal } from "shared/ui";
 
-import { END_GAME_STATE, GameWinners } from '../../lib';
-import { setGameWinner, startGame, TDeskSliceStore, TWinnerGame } from '../../model';
+import { END_GAME_STATE, GameWinners, GlobalStatuses } from '../../lib';
+import { goToObservation, startGame, TDeskSliceStore, TWinnerGame } from '../../model';
 
 import s from './EndGameModal.module.css';
 
@@ -20,15 +20,17 @@ export const EndGameModal = () => {
 
 	const gameWinner = useSelector<TDeskSliceStore>((state) => state.desk.winner) as TWinnerGame;
 	const isActivatedSound = useSelector<TSettingsSliceStore>((state) => state.sound.isActivatedSound) as boolean;
+	const globalStatus = useSelector<TDeskSliceStore>((state) => state.desk.globalStatus);
 
 	const [isOpenedModal, setIsOpenedModal] = useState<boolean>(false);
 
 	const winnerData = END_GAME_STATE[gameWinner];
-	const randomImage = winnerData.images[Math.floor(Math.random() * winnerData.images.length)]
-	const randomSound = winnerData.sounds[Math.floor(Math.random() * winnerData.sounds.length)]
+	const randomImage = useMemo(() =>  winnerData.images[Math.floor(Math.random() * winnerData.images.length)], [winnerData]);
+	const randomSound = useMemo(() =>  winnerData.sounds[Math.floor(Math.random() * winnerData.sounds.length)], [winnerData]);
+
 
 	const onCloseHandler = () => {
-		dispatch(setGameWinner(GameWinners.Nobody));
+		dispatch(goToObservation());
 		setIsOpenedModal(false);
 	}
 
@@ -43,7 +45,7 @@ export const EndGameModal = () => {
 
 	useEffect(() => {
 		let timer: NodeJS.Timeout;
-		if (gameWinner !== GameWinners.Nobody) {
+		if (globalStatus === GlobalStatuses.Gaming && gameWinner !== GameWinners.Nobody) {
 			timer = setTimeout(() => {
 				setIsOpenedModal(true);
 				if (isActivatedSound) {
@@ -63,7 +65,6 @@ export const EndGameModal = () => {
 		<Modal
 			isOpen={isOpenedModal}
 			onClose={onCloseHandler}
-			noFade
 		>
 			<div className={s.winner}>
 				<div className={s.info}>

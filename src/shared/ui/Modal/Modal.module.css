@@ -21,7 +21,7 @@
 }
 
 .modal_close {
-  animation: closeModal 400ms forwards linear;
+  animation: closeModal 500ms forwards linear;
   transform-origin: top center;
 }
 
