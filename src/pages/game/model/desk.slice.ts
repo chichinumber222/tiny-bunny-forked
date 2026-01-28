@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { GAME_CARDS, GameStatuses, GameWinners, shuffleArray, TGameCard } from '../lib';
 import { TGameStatus, TWinnerGame } from './types';
-import { GlobalStatuses } from '../lib/constants'
 
 export const GAME_STEP_TRANSLATE = {
 	[GameStatuses.StepPlayer]: 'playerStep',
@@ -16,7 +15,6 @@ export type TDeskSliceState = {
 	unusedCards: TGameCard[];
 	status: TGameStatus;
 	winner: TWinnerGame;
-	globalStatus: GlobalStatuses;
 }
 
 const initialState: TDeskSliceState = {
@@ -25,7 +23,6 @@ const initialState: TDeskSliceState = {
 	unusedCards: [],
 	status: GameStatuses.StepPlayer,
 	winner: GameWinners.Nobody,
-	globalStatus: GlobalStatuses.Gaming,
 }
 
 const deskSlice = createSlice({
@@ -40,7 +37,6 @@ const deskSlice = createSlice({
 			state.playerCards = [card1, card2];
 			state.winner = GameWinners.Nobody;
 			state.status = GameStatuses.StepPlayer;
-			state.globalStatus = GlobalStatuses.Gaming;
 		},
 		nextStep(state) {
 			if (state.status === GameStatuses.StepPlayer) {
@@ -63,9 +59,6 @@ const deskSlice = createSlice({
 		},
 		setGameWinner(state, action) {
 			state.winner = action.payload;
-		},
-		goToObservation(state) {
-			state.globalStatus = GlobalStatuses.Observation;
 		},
 		viewResults(state) {
 			state.status = GameStatuses.End;
@@ -94,6 +87,5 @@ export const {
 	getCardOpponent,
 	setGameWinner,
 	opponentStop,
-	goToObservation
 } = deskSlice.actions;
 export default deskSlice.reducer;

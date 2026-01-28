@@ -35,11 +35,6 @@ export enum GameWinners {
 	Draw
 }
 
-export enum GlobalStatuses {
-	Gaming,
-	Observation
-}
-
 export const END_GAME_STATE = {
 	[GameWinners.Player]: {
 		title: 'playerWinnerTitle',

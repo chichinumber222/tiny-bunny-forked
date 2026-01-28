@@ -7,8 +7,8 @@ import { TSettingsSliceStore, useTranslates } from 'entities/settings';
 import endGameSound from 'shared/assets/sounds/end_game.ogg';
 import { HatchButton, Modal } from "shared/ui";
 
-import { END_GAME_STATE, GameWinners, GlobalStatuses } from '../../lib';
-import { goToObservation, startGame, TDeskSliceStore, TWinnerGame } from '../../model';
+import { END_GAME_STATE, GameWinners } from '../../lib';
+import { setGameWinner, startGame, TDeskSliceStore, TWinnerGame } from '../../model';
 
 import s from './EndGameModal.module.css';
 
@@ -20,7 +20,6 @@ export const EndGameModal = () => {
 
 	const gameWinner = useSelector<TDeskSliceStore>((state) => state.desk.winner) as TWinnerGame;
 	const isActivatedSound = useSelector<TSettingsSliceStore>((state) => state.sound.isActivatedSound) as boolean;
-	const globalStatus = useSelector<TDeskSliceStore>((state) => state.desk.globalStatus);
 
 	const [isOpenedModal, setIsOpenedModal] = useState<boolean>(false);
 
@@ -30,8 +29,11 @@ export const EndGameModal = () => {
 
 
 	const onCloseHandler = () => {
-		dispatch(goToObservation());
 		setIsOpenedModal(false);
+	}
+
+	const onUnmountEndHandler = () => {
+		dispatch(setGameWinner(GameWinners.Nobody));
 	}
 
 	const onRefreshGameHandler = () => {
@@ -45,7 +47,7 @@ export const EndGameModal = () => {
 
 	useEffect(() => {
 		let timer: NodeJS.Timeout;
-		if (globalStatus === GlobalStatuses.Gaming && gameWinner !== GameWinners.Nobody) {
+		if (gameWinner !== GameWinners.Nobody) {
 			timer = setTimeout(() => {
 				setIsOpenedModal(true);
 				if (isActivatedSound) {
@@ -65,6 +67,7 @@ export const EndGameModal = () => {
 		<Modal
 			isOpen={isOpenedModal}
 			onClose={onCloseHandler}
+			onUnmountEnd={onUnmountEndHandler}
 		>
 			<div className={s.winner}>
 				<div className={s.info}>

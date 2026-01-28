@@ -7,10 +7,12 @@ import s from './Modal.module.css';
 type Props = {
 	isOpen: boolean;
 	onClose?: () => void;
+	onUnmountStart?: () => void;
+	onUnmountEnd?: () => void;
 	children: ReactNode;
 }
 
-export const Modal = ({ isOpen, onClose, children }: Props) => {
+export const Modal = ({ isOpen, onClose, onUnmountStart, onUnmountEnd, children }: Props) => {
 	const [isOpened, setIsOpened] = useState<boolean>(false);
 
 	useEffect(() => {
@@ -20,14 +22,20 @@ export const Modal = ({ isOpen, onClose, children }: Props) => {
 	}, [isOpen]);
 
 	const onClickModal = (event: MouseEvent) => {
-		if (event.target === event.currentTarget) {
+		if ((event.target as HTMLElement).classList.contains(s.modal)) {
 			onClose?.();
 		}
 	}
 
-	const onAnimationEnd = (event: React.AnimationEvent) => {
+	const onCloseAnimationStart = (event: React.AnimationEvent) => {
 		if (event.target !== event.currentTarget) return;
-		setIsOpened(false)
+		onUnmountStart?.();
+	}
+
+	const onCloseAnimationEnd = (event: React.AnimationEvent) => {
+		if (event.target !== event.currentTarget) return;
+		setIsOpened(false);
+		onUnmountEnd?.();
 	}
 
 	if (!isOpened) return null;
@@ -36,7 +44,8 @@ export const Modal = ({ isOpen, onClose, children }: Props) => {
 		<div
 			className={clsx(s.modal, isOpen ? s.modal_open : s.modal_close)}
 			onClick={onClickModal}
-			onAnimationEnd={isOpen ? undefined : onAnimationEnd}
+			onAnimationStart={isOpen ? undefined : onCloseAnimationStart}
+			onAnimationEnd={isOpen ? undefined : onCloseAnimationEnd}
 		>
 			{children}
 		</div>
